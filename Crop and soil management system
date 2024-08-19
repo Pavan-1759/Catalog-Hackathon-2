@@ -1,0 +1,139 @@
+import json
+import random
+from datetime import datetime
+
+# Mock data for demonstration purposes
+soil_types = ["Loam", "Clay", "Sandy", "Silty"]
+crops = {
+    "Loam": ["Wheat", "Corn", "Soybeans"],
+    "Clay": ["Rice", "Cotton", "Tobacco"],
+    "Sandy": ["Potatoes", "Carrots", "Peanuts"],
+    "Silty": ["Barley", "Oats", "Sugar Beet"]
+}
+
+diseases = {
+    "Wheat": ["Rust", "Smut"],
+    "Corn": ["Blight", "Rust"],
+    "Soybeans": ["Mosaic Virus"],
+    "Rice": ["Blast"],
+    "Cotton": ["Boll Rot"],
+    "Tobacco": ["Mosaic Virus"],
+    "Potatoes": ["Late Blight"],
+    "Carrots": ["Root Fly"],
+    "Peanuts": ["Leaf Spot"],
+    "Barley": ["Scald"],
+    "Oats": ["Crown Rust"],
+    "Sugar Beet": ["Curly Top"]
+}
+
+market_prices = {
+    "Wheat": 180,
+    "Corn": 200,
+    "Soybeans": 220,
+    "Rice": 250,
+    "Cotton": 300,
+    "Tobacco": 280,
+    "Potatoes": 150,
+    "Carrots": 120,
+    "Peanuts": 180,
+    "Barley": 160,
+    "Oats": 140,
+    "Sugar Beet": 190
+}
+
+fertilizers = ["Nitrogen", "Phosphorus", "Potassium"]
+pests = ["Aphids", "Caterpillars", "Weevils", "Locusts"]
+
+def load_weather_data():
+    # Mock weather data
+    weather_data = {
+        "temperature": random.uniform(15, 35),
+        "humidity": random.uniform(40, 80),
+        "rainfall": random.uniform(0, 20)
+    }
+    return weather_data
+
+def crop_selection(soil_type):
+    return crops.get(soil_type, [])
+
+def soil_management(soil_type):
+    recommendations = {
+        "Loam": "Maintain organic matter and ensure proper drainage.",
+        "Clay": "Improve drainage and aeration.",
+        "Sandy": "Increase organic matter to improve water retention.",
+        "Silty": "Ensure proper drainage and avoid over-irrigation."
+    }
+    return recommendations.get(soil_type, "No recommendations available.")
+
+def disease_identification(crop, symptoms):
+    possible_diseases = diseases.get(crop, [])
+    return possible_diseases
+
+def market_trends(crop):
+    return market_prices.get(crop, "No data available.")
+
+def irrigation_management(soil_type, weather_data):
+    recommendations = {
+        "Loam": "Water as needed based on rainfall.",
+        "Clay": "Avoid over-watering, monitor rainfall.",
+        "Sandy": "Frequent watering due to low water retention.",
+        "Silty": "Water based on soil moisture levels."
+    }
+    return recommendations.get(soil_type, "No recommendations available.")
+
+def pest_control(crop):
+    return random.choice(pests)
+
+def fertilizer_recommendation(crop, soil_type):
+    return random.choice(fertilizers)
+
+def main():
+    print("Welcome to the Crop and Soil Management System")
+    print("Please enter your soil type:")
+    for i, soil in enumerate(soil_types):
+        print(f"{i + 1}. {soil}")
+    soil_choice = int(input("Enter the number corresponding to your soil type: ")) - 1
+    soil_type = soil_types[soil_choice]
+    
+    print(f"Selected soil type: {soil_type}")
+    print("Fetching crop recommendations...")
+    recommended_crops = crop_selection(soil_type)
+    print(f"Recommended crops for {soil_type} soil: {', '.join(recommended_crops)}")
+    
+    print("Fetching soil management recommendations...")
+    soil_recommendations = soil_management(soil_type)
+    print(f"Soil management recommendations for {soil_type} soil: {soil_recommendations}")
+    
+    print("Fetching weather data...")
+    weather_data = load_weather_data()
+    print(f"Weather data: Temperature: {weather_data['temperature']}°C, Humidity: {weather_data['humidity']}%, Rainfall: {weather_data['rainfall']}mm")
+    
+    print("Fetching irrigation management recommendations...")
+    irrigation_recommendations = irrigation_management(soil_type, weather_data)
+    print(f"Irrigation management recommendations: {irrigation_recommendations}")
+    
+    print("Fetching market trends...")
+    for crop in recommended_crops:
+        price = market_trends(crop)
+        print(f"Current market price for {crop}: ${price} per ton")
+    
+    print("Enter the crop you are growing:")
+    crop = input()
+    
+    print(f"Fetching disease identification for {crop}...")
+    symptoms = input("Enter symptoms observed: ")
+    possible_diseases = disease_identification(crop, symptoms)
+    print(f"Possible diseases for {crop}: {', '.join(possible_diseases)}")
+    
+    print("Fetching pest control recommendations...")
+    pest = pest_control(crop)
+    print(f"Recommended pest control: {pest}")
+    
+    print("Fetching fertilizer recommendations...")
+    fertilizer = fertilizer_recommendation(crop, soil_type)
+    print(f"Recommended fertilizer for {crop} in {soil_type} soil: {fertilizer}")
+    
+    print("Thank you for using the Crop and Soil Management System!")
+
+if __name__ == "__main__":
+    main()
